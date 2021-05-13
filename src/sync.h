@@ -3,8 +3,8 @@
 // Distributed under the MIT software license, see the accompanying
 // file COPYING or http://www.opensource.org/licenses/mit-license.php.
 
-#ifndef BITCOIN_SYNC_H
-#define BITCOIN_SYNC_H
+#ifndef EXPOSITIO_SYNC_H
+#define EXPOSITIO_SYNC_H
 
 #include <threadsafety.h>
 #include <util/macros.h>
@@ -352,4 +352,4 @@ public:
     }
 };
 
-#endif // BITCOIN_SYNC_H
+#endif // EXPOSITIO_SYNC_H

@@ -10,24 +10,24 @@ BUILDDIR=${BUILDDIR:-$TOPDIR}
 BINDIR=${BINDIR:-$BUILDDIR/src}
 MANDIR=${MANDIR:-$TOPDIR/doc/man}
 
-BITCOIND=${BITCOIND:-$BINDIR/bitcoind}
-BITCOINCLI=${BITCOINCLI:-$BINDIR/bitcoin-cli}
-BITCOINTX=${BITCOINTX:-$BINDIR/bitcoin-tx}
-WALLET_TOOL=${WALLET_TOOL:-$BINDIR/bitcoin-wallet}
-BITCOINQT=${BITCOINQT:-$BINDIR/qt/bitcoin-qt}
+EXPOSITIOD=${EXPOSITIOD:-$BINDIR/expositiod}
+EXPOSITIOCLI=${EXPOSITIOCLI:-$BINDIR/expositio-cli}
+EXPOSITIOTX=${EXPOSITIOTX:-$BINDIR/expositio-tx}
+WALLET_TOOL=${WALLET_TOOL:-$BINDIR/expositio-wallet}
+EXPOSITIOQT=${EXPOSITIOQT:-$BINDIR/qt/expositio-qt}
 
-[ ! -x $BITCOIND ] && echo "$BITCOIND not found or not executable." && exit 1
+[ ! -x $EXPOSITIOD ] && echo "$EXPOSITIOD not found or not executable." && exit 1
 
 # The autodetected version git tag can screw up manpage output a little bit
-read -r -a BTCVER <<< "$($BITCOINCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
+read -r -a BTCVER <<< "$($EXPOSITIOCLI --version | head -n1 | awk -F'[ -]' '{ print $6, $7 }')"
 
 # Create a footer file with copyright content.
-# This gets autodetected fine for bitcoind if --version-string is not set,
-# but has different outcomes for bitcoin-qt and bitcoin-cli.
+# This gets autodetected fine for expositiod if --version-string is not set,
+# but has different outcomes for expositio-qt and expositio-cli.
 echo "[COPYRIGHT]" > footer.h2m
-$BITCOIND --version | sed -n '1!p' >> footer.h2m
+$EXPOSITIOD --version | sed -n '1!p' >> footer.h2m
 
-for cmd in $BITCOIND $BITCOINCLI $BITCOINTX $WALLET_TOOL $BITCOINQT; do
+for cmd in $EXPOSITIOD $EXPOSITIOCLI $EXPOSITIOTX $WALLET_TOOL $EXPOSITIOQT; do
   cmdname="${cmd##*/}"
   help2man -N --version-string=${BTCVER[0]} --include=footer.h2m -o ${MANDIR}/${cmdname}.1 ${cmd}
   sed -i "s/\\\-${BTCVER[1]}//g" ${MANDIR}/${cmdname}.1

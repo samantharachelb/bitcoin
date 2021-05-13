@@ -1,0 +1,67 @@
+#!/usr/bin/env bash
+#
+#  expositiod The expositio core server.
+#
+#
+# chkconfig: 345 80 20
+# description: expositiod
+# processname: expositiod
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/expositiod, see below
+if [ -f /etc/sysconfig/expositiod ]; then
+        . /etc/sysconfig/expositiod
+fi
+
+RETVAL=0
+
+prog=expositiod
+# you can override the lockfile via EXPOSITIOD_LOCKFILE in /etc/sysconfig/expositiod
+lockfile=${EXPOSITIOD_LOCKFILE-/var/lock/subsys/expositiod}
+
+# expositiod defaults to /usr/bin/expositiod, override with EXPOSITIOD_BIN
+expositiod=${EXPOSITIOD_BIN-/usr/bin/expositiod}
+
+# expositiod opts default to -disablewallet, override with EXPOSITIOD_OPTS
+expositiod_opts=${EXPOSITIOD_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $expositiod $expositiod_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog -t600
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

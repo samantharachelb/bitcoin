@@ -1,0 +1,33 @@
+# /etc/conf.d/expositiod: config file for /etc/init.d/expositiod
+
+# Config file location
+#EXPOSITIOD_CONFIGFILE="/etc/expositio/expositio.conf"
+
+# What directory to write pidfile to?  (created and owned by $EXPOSITIOD_USER)
+#EXPOSITIOD_PIDDIR="/var/run/expositiod"
+
+# What filename to give the pidfile
+#EXPOSITIOD_PIDFILE="${EXPOSITIOD_PIDDIR}/expositiod.pid"
+
+# Where to write expositiod data (be mindful that the blockchain is large)
+#EXPOSITIOD_DATADIR="/var/lib/expositiod"
+
+# User and group to own expositiod process
+#EXPOSITIOD_USER="expositio"
+#EXPOSITIOD_GROUP="expositio"
+
+# Path to expositiod executable
+#EXPOSITIOD_BIN="/usr/bin/expositiod"
+
+# Nice value to run expositiod under
+#EXPOSITIOD_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+#EXPOSITIOD_OPTS=""
+
+# The timeout in seconds OpenRC will wait for expositiod to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+EXPOSITIOD_SIGTERM_TIMEOUT=600
